@@ -7,3 +7,6 @@ Description: Process validate is a series of queries to conduct error checking o
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    usethis
+RoxygenNote: 7.1.2
