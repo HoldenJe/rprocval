@@ -8,5 +8,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    sqldf,
     usethis
 RoxygenNote: 7.1.2
+Depends: 
+    R (>= 2.10)
