@@ -22,6 +22,22 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
   if(sum(!(is.na(FN125$AGE))) < 10 | sum(!(is.na(FN125$FLEN))) < 10){
     usethis::ui_oops(paste0("Fewer than 10 records exists for SPC == ", unique(FN125$SPC)))
     return(FN125)
+  }
+  testfit <- NULL # set dummy variable to NULL
+  try(testfit <- nls(FLEN~Linf*(1-exp(-k*(AGE-t0))), data=FN125,
+                     start=list(Linf=500, k=.15, t0 = -1)))
+  # if model converges valid data will overwrite testfit; else
+  # testfit will remain NA when model doesn't converge and an error is given
+
+  if(is.null(testfit)){
+    if(makeplot){
+      require(ggplot2)
+      vbplot <- ggplot() +
+        geom_point(data = FN125, aes(AGE, FLEN)) +
+        ggtitle(paste(unique(FN125$PRJ_CD), unique(FN125$SPC), sep = ": "))
+      print(vbplot)}
+    usethis::ui_oops(paste0("VonB could not be fit for SPC == ", unique(FN125$SPC)))
+    return(FN125)
   } else {
     datain <- FN125
     FN125 <- FN125[!(is.na(FN125$AGE)) & !(is.na(FN125$FLEN)), ]
