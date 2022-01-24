@@ -14,6 +14,11 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
   # if(!(fishlength %in% names(FN125))) {
   #   usethis::ui_stop(paste(fishlength, " is not a valid field."))
   #   }
+
+  FN125$qid5_error <- NA
+  FN125$PRED_FLEN <-  NA
+  FN125$LogRatioAge <- NA
+
   if(length(unique(FN125$PRJ_CD)) > 1){usethis::ui_warn("Multiple projects included.")}
   if(length(unique(FN125$SPC)) > 1){
     usethis::ui_warn("Multiple species included.")
@@ -39,6 +44,7 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
     usethis::ui_oops(paste0("VonB could not be fit for SPC == ", unique(FN125$SPC)))
     return(FN125)
   } else {
+    FN125$UID <- 1:nrow(FN125)
     datain <- FN125
     FN125 <- FN125[!(is.na(FN125$AGE)) & !(is.na(FN125$FLEN)), ]
 
@@ -74,8 +80,8 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
       usethis::ui_info("Use `FN125 %>% filter(qid5_error)` to view flagged records")
     }
 
-
-    FN125 <- suppressMessages(left_join(datain, FN125)) # this is generally not advised but I think suitable here
+    FN125 <- dplyr::rows_update(datain, FN125, by="UID")
+    FN125 <- FN125 %>% select(-UID)
     FN125
   }
 }
