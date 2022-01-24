@@ -21,9 +21,10 @@ fn125_fl_tl_lm <- function(FN125,  makeplot = F, fail_criteria = 0.1) {
   } else {
     require(dplyr)
     mod <- lm(TLEN~FLEN, FN125)
-    FN125 <- FN125 |>
-      mutate(PRED_TLEN = FLEN*mod$coef[2] + mod$coef[1]) |>
-      mutate(LogRatioTLEN = abs(log10(TLEN)-log10(PRED_TLEN))) |>
+    FN125 <- FN125  %>%
+      mutate(PRED_FLEN = (TLEN - mod$coef[1])/mod$coef[2]) %>%
+      mutate(PRED_TLEN = FLEN*mod$coef[2] + mod$coef[1])  %>%
+      mutate(LogRatioTLEN = abs(log10(TLEN)-log10(PRED_TLEN)))  %>%
       mutate(qid2_error = ifelse(LogRatioTLEN > fail_criteria, T, F))
     if(makeplot){
       require(ggplot2)
