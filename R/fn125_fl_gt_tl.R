@@ -14,7 +14,7 @@ fn125_fl_gt_tl <- function(FN125, makeplot = F){
       # create custom different plot title
     }
 
-  FN125$qid1_error <- ifelse(FN125$FLEN > FN125$TLEN, T, F)
+  FN125$qid1_error <- ifelse(FN125$FLEN >= FN125$TLEN, T, F)
 
   if(makeplot){
     if(sum(!is.na(FN125$TLEN)) < 1 | sum(!is.na(FN125$FLEN)) < 1){
