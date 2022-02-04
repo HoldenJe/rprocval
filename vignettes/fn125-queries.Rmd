@@ -1,0 +1,107 @@
+---
+title: "Using rprocval to check FN125"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using rprocval to check FN125}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 5,
+  fig.height = 3
+)
+```
+
+```{r setup}
+# development version on fn125_queries branch is required
+# devtools::install_github("https://github.com/HoldenJe/rprocval/tree/fn125_queries")
+library(rprocval)
+```
+
+
+```{r setup2, message=FALSE}
+library(gfsR)
+library(dplyr)
+library(purrr)
+library(ggplot2)
+```
+
+### Basic description
+1. The `fn125_` functions are largely a re-write of code written by P. Addison for use on the BSM database. I've taken a function approach to allow users to step through each test rather than batch run the entire script. The core concept is the use of log ratios between input data and a predicted value from a model fit. This does not necessarily mean there is an error but flags the record for the user to inspect and verify the data are correct.
+2. FN125 input dataframe doesn't have to be from a FN2 import but to ease the function writing I wrote the functions with the assumption that the input dataframe with have columns labelled `PRJ_CD`, `SPC`, `FLEN`, `TLEN`, `RWT` and `AGE`. Currently the functions do not test the input structure and will not likely return a useful error message if you have used non-standard FN2 language (i.e. `flen`, `fl`, `length`).  
+3. I've utilized `purrr::map()` notation to replace a loop or a split/apply approach. I think it makes the code more readable and fits nicely with the `tidyverse` pipe approach but it does require the use of the `%>%` pipe operator and not the new base R `|>` pipe to handle the `.` function. 
+4. Each function has a `makeplot` argument to optionally return plot results. The default is currently set to `FALSE`. 
+5. Functions that use a log ratio to assign an error flag all have a `fail_criteria` argument that have defaults set to the same defaults as the original script. These can be modified to be more or less restrictive based on the amount of variability in your data.  
+
+
+### Load some FN2 Data
+```{r}
+gn <- import_fn_index_net("~/FNData/LWA/IA16_041/DATA.ZIP")
+FN125 <- gn$FN125
+```
+
+### Check FLEN vs TLEN
+```{r}
+FN125 <- gn$FN125 %>%
+  split(.$SPC) %>%
+  map(fn125_fl_gt_tl, makeplot = T) %>%
+  bind_rows()
+```
+
+### Fix errors
+```{r}
+errors <- FN125 %>% filter(qid1_error)
+reverse_flen <- errors %>% rename(FLEN = TLEN, TLEN = FLEN) %>%
+  select(PRJ_CD, SAM, EFF, SPC, FISH, TLEN, FLEN)
+FN125 <- rows_update(FN125, reverse_flen, by =c("PRJ_CD", "SAM", "EFF", "SPC", "FISH"))
+```
+
+### Re-Run to confirm fix applied
+
+```{r}
+FN125 <- gn$FN125 %>%
+  split(.$SPC) %>%
+  map(fn125_fl_gt_tl) %>%
+  bind_rows()
+```
+
+### Run next queries together
+```{r}
+FN125 <- FN125 %>%
+  split(.$SPC) %>%
+  map(fn125_fl_tl_lm, makeplot = T) %>%
+  map(fn125_fl_rwt_lm, makeplot = T) %>%
+  map(fn125_tl_rwt_lm, makeplot = T) %>%
+  bind_rows()
+```
+
+### View flagged records
+```{r}
+flagged_records <- FN125 %>% filter(qid2_error | qid3_error | qid4_error) %>%
+  select(PRJ_CD, SAM, EFF, SPC, FISH, FLEN, TLEN, RWT,
+         qid2_error, qid3_error, qid4_error)
+flagged_records
+```
+
+### Remove or fix
+```{r}
+FN125 <- anti_join(FN125, flagged_records, by =c("PRJ_CD", "SAM", "EFF", "SPC", "FISH"))
+```
+
+### Review ages
+```{r}
+FN125 <- FN125 %>%
+  split(.$SPC) %>%
+  map(fn125_vonb_check, makeplot = T, fail_criteria = 0.1) %>%
+  bind_rows()
+```
+
+### Review flagged records
+```{r}
+FN125 %>% filter(qid5_error)
+```
+

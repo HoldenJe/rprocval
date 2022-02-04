@@ -1,12 +1,20 @@
 Package: rprocval
 Type: Package
 Title: An R implementation of Process Validate
-Version: 0.0.0.9000
+Version: 0.0.0.9003
 Authors@R: person("Jeremy", "Holden", , "jeremy.holden@ontario.ca", role = c("aut", "cre"))
 Description: Process validate is a series of queries to conduct error checking on FishNet2 structured databases. The queries are intended to catch common errors in data structure. Queries have been adapted to work in R based on SQL queries written for GLIS.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    dplyr,
+    sqldf,
     usethis
 RoxygenNote: 7.1.2
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
