@@ -7,7 +7,7 @@
 fn121_column_check(FN121)
 }
 \arguments{
-\item{FN121}{}
+\item{FN121}{FN121 table that adheres to the FN2 data model}
 }
 \value{
 
@@ -19,4 +19,5 @@ Check FN121 Columns
 \dontrun{
 fn121_column_check(FN121)
 }
+
 }
