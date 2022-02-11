@@ -17,8 +17,6 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-# development version on fn125_queries branch is required
-# devtools::install_github("https://github.com/HoldenJe/rprocval/tree/fn125_queries")
 library(rprocval)
 ```
 
@@ -41,8 +39,43 @@ library(ggplot2)
 ### Load some FN2 Data
 ```{r}
 gn <- import_fn_index_net("~/FNData/LWA/IA16_041/DATA.ZIP")
+FN121 <- gn$FN121
+FN123 <- gn$FN123
 FN125 <- gn$FN125
 ```
+
+### Start with FN121 checks
+First check that all required columns exist.
+```{r}
+fn121_column_check(FN121)
+```
+
+Correct data as required.
+```{r}
+FN121 <- FN121 %>% rename(EFFDT1 = DATE)
+```
+
+The tests are conducted there will be a series of messages printed.
+```{r}
+FN121_Errors <- fn121_error_queries(FN121, FN123)
+```
+
+All the flagged records are returned as a dataframes in a list.
+```{r}
+lapply(FN121_Errors, head)
+```
+
+### Check FN123
+Similar to the FN121 checks, test results are output in the console and error files returned in a list.
+
+```{r}
+FN123_Errors <- fn123_error_queries(FN123, FN125)
+```
+
+```{r}
+lapply(FN123_Errors, head)
+```
+
 
 ### Check FLEN vs TLEN
 ```{r}

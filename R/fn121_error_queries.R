@@ -62,8 +62,8 @@ fn121_error_queries <- function(FN121, FN123){
   ## Check EFFDUR vs Calculated
   FN121 <- FN121 %>%
     mutate(SET = ymd_hm(paste(EFFDT0, EFFTM0, sep= " ")),
-           LIFT =ymd_hm(paste(EFFDT1, EFFTM1, sep= " ")),
-           CalcEFFDUR = as.numeric((LIFT - SET)/60),
+           LIFT = ymd_hm(paste(EFFDT1, EFFTM1, sep= " ")),
+           CalcEFFDUR = as.numeric(difftime(LIFT, SET), units = "hours"),
            EFF_difference = EFFDUR/CalcEFFDUR)
 
   neg_effdur <- FN121 %>% filter(CalcEFFDUR < 0)

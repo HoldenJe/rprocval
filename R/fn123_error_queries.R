@@ -28,7 +28,7 @@ fn123_error_queries <- function(FN123, FN125){
   has_na_catcnt <- FN123 %>% filter(is.na(CATCNT))
   n_has_na_catcnt <- nrow(has_na_catcnt)
   if(n_has_na_catcnt >=1) {
-    usethis::ui_oops(paste0("FN123 has ", n_has_na_catchnt, " missing CATCNTs"))
+    usethis::ui_oops(paste0("FN123 has ", n_has_na_catcnt, " missing CATCNTs"))
   } else {usethis::ui_done("No missing CATCNTs")}
 
   ## BIOCNT not na
