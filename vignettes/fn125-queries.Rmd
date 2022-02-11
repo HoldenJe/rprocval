@@ -52,7 +52,13 @@ fn121_column_check(FN121)
 
 Correct data as required.
 ```{r}
-FN121 <- FN121 %>% rename(EFFDT1 = DATE)
+FN121 <- FN121 %>% rename(EFFDT1 = DATE) %>% 
+  mutate(SITEM = NA)
+```
+
+The FN121 checks also require the FN123 table. Check that all fields exist.
+```{r}
+fn123_column_check(FN123)
 ```
 
 The tests are conducted there will be a series of messages printed.
