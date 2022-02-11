@@ -2,6 +2,7 @@
 
 export(fn121_column_check)
 export(fn121_error_queries)
+export(fn123_column_check)
 export(fn123_error_queries)
 export(fn125_fl_gt_tl)
 export(fn125_fl_rwt_lm)
