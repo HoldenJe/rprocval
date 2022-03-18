@@ -34,7 +34,7 @@ fn121_error_queries <- function(FN121, FN123){
   prjcd_setdate <- FN121 %>%
     mutate(prj_yr = as.numeric(substr(PRJ_CD, 7,8))) %>%
     mutate(PRJ_YEAR = ifelse(prj_yr < 40, prj_yr + 2000, prj_yr + 1900)) %>%
-    filter(PRJ_YEAR != year(EFFDT0) | PRJ_YEAR != year(EFFDT1))
+    filter(PRJ_YEAR != lubridate::year(EFFDT0) | PRJ_YEAR != lubridate::year(EFFDT1))
   if(nrow(prjcd_setdate) > 0){
     usethis::ui_oops(paste0(nrow(prjcd_setdate), " records have a set or lift date that differs from project code year."))
   } else {usethis::ui_done("All records occur in the same year as indicated by the project code.")}
@@ -61,8 +61,8 @@ fn121_error_queries <- function(FN121, FN123){
 
   ## Check EFFDUR vs Calculated
   FN121 <- FN121 %>%
-    mutate(SET = ymd_hm(paste(EFFDT0, EFFTM0, sep= " ")),
-           LIFT = ymd_hm(paste(EFFDT1, EFFTM1, sep= " ")),
+    mutate(SET = lubridate::ymd_hm(paste(EFFDT0, EFFTM0, sep= " ")),
+           LIFT = lubridate::ymd_hm(paste(EFFDT1, EFFTM1, sep= " ")),
            CalcEFFDUR = as.numeric(difftime(LIFT, SET), units = "hours"),
            EFF_difference = EFFDUR/CalcEFFDUR)
 
