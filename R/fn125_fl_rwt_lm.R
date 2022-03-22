@@ -19,7 +19,24 @@ fn125_fl_rwt_lm <- function(FN125, makeplot = F, fail_criteria = 0.3) {
     usethis::ui_oops(paste0("Fewer than 10 records exists for SPC == ", unique(FN125$SPC)))
     return(FN125)
   } else {
-    FLEN.RWT <- nls(RWT~alpha*FLEN^(beta), data=FN125, start=list(alpha=0.000005, beta=3))
+
+    # test that model will converge
+    testfit <- NULL # set dummy variable to NULL
+    try(testfit <-
+          nls(
+            RWT ~ alpha * FLEN ^ (beta),
+            data = FN125,
+            start = list(alpha = 0.000005, beta = 3)
+          ))
+
+    if(!is.null(testfit)) {
+      FLEN.RWT <-
+        nls(
+          RWT ~ alpha * FLEN ^ (beta),
+          data = FN125,
+          start = list(alpha = 0.000005, beta = 3)
+        )
+
     FN125 <- FN125 |>
       mutate(PRED_RWT = coefficients(FLEN.RWT)[1]*FLEN^coefficients(FLEN.RWT)[2]) |>
       mutate(LogRatioRWT = abs(log10(PRED_RWT)-log10(RWT))) |>
@@ -49,5 +66,6 @@ fn125_fl_rwt_lm <- function(FN125, makeplot = F, fail_criteria = 0.3) {
     if(is.na(sum(FN125$qid3_error))){usethis::ui_warn("NA values in FLEN or RWT")}
 
     FN125
+    }
   }
 }
