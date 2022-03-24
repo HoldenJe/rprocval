@@ -1,5 +1,3 @@
-
-
 #' tl_rwt_lm - Compares FL:RWT using nlm relationship
 #'
 #' @param FN125
@@ -18,14 +16,18 @@ fn125_tl_rwt_lm <-
       usethis::ui_warn("Multiple projects included.")
     }
     if (length(unique(FN125$SPC)) > 1) {
-      usethis::ui_warn("Multiple species included.")
-      # create custom different plot title
+      usethis::ui_warn(
+        "Multiple species included. Function will still run but may produce unexpected results."
+      )
     }
-    if (length(!(is.na(FN125$RWT))) < 10 |
-        length(!(is.na(FN125$TLEN))) < 10) {
+    # create variables RWT and TLEN
+    nTLEN <- sum(!(is.na(FN125$TLEN)))
+    nRWT <- sum(!(is.na(FN125$RWT)))
+    if (nRWT < 10 | nTLEN < 10) {
       usethis::ui_oops(paste0("Fewer than 10 records exists for SPC == ", unique(FN125$SPC)))
       return(FN125)
-    } else {
+    }
+    if (nRWT >= 10 & nTLEN >=10) {
       # test that model will converge
       testfit <- NULL # set dummy variable to NULL
       try(testfit <-
@@ -33,9 +35,21 @@ fn125_tl_rwt_lm <-
               RWT ~ alpha * TLEN ^ (beta),
               data = FN125,
               start = list(alpha = 0.000005, beta = 3)
-            ))
+            ), silent = T)
 
-      if(!is.null(testfit)) {
+      if(is.null(testfit)){
+        if(makeplot){
+          require(ggplot2)
+          print(ggplot(FN125, aes(TLEN, RWT)) +
+                  geom_point() +
+                  ggtitle(paste(
+                    unique(FN125$PRJ_CD), unique(FN125$SPC), sep = ":"
+                  ), subtitle = "nls did not converge"))}
+        usethis::ui_oops(paste0("nls model could not converge for SPC == ", unique(FN125$SPC)))
+        return(FN125)
+        }
+
+      if (!is.null(testfit)) {
         TLEN.RWT <-
           nls(
             RWT ~ alpha * TLEN ^ (beta),
