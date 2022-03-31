@@ -48,7 +48,7 @@ fn125_vonb_check <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
 
   testfit <- NULL # set dummy variable to NULL
   try(testfit <- nls(TLEN~Linf*(1-exp(-k*(AGE-t0))), data=FN125,
-                 start=list(Linf=500, k=.15, t0 = -1)))
+                 start=list(Linf=500, k=.15, t0 = -1)), silent = T)
   # if model converges valid data will overwrite testfit; else
   # testfit will remain NA when model doesn't converge and an error is given
 
