@@ -64,7 +64,7 @@ fn121_error_queries <- function(FN121, FN123){
     mutate(SET = lubridate::ymd_hm(paste(EFFDT0, EFFTM0, sep= " ")),
            LIFT = lubridate::ymd_hm(paste(EFFDT1, EFFTM1, sep= " ")),
            CalcEFFDUR = as.numeric(difftime(LIFT, SET), units = "hours"),
-           EFF_difference = EFFDUR/CalcEFFDUR)
+           EFF_difference = abs(EFFDUR-abs(CalcEFFDUR)))
 
   neg_effdur <- FN121 %>% filter(CalcEFFDUR < 0)
 
@@ -74,7 +74,7 @@ fn121_error_queries <- function(FN121, FN123){
 
   ## Check report EFFDUR vs Calculated
   effdur_calceffdur <- FN121 %>%
-    filter(EFF_difference > 1.2 | EFF_difference < 0.8)
+    filter(EFF_difference > 1)
 
   if(nrow(effdur_calceffdur) > 0){
     usethis::ui_oops(paste0(nrow(effdur_calceffdur), " records have a calculated effort duration that differs significantly from EFFDUR"))
