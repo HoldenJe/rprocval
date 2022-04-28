@@ -56,7 +56,7 @@ fn121_error_queries <- function(FN121, FN123){
   ## Check EFFDUR ----------
   large_effdur <- FN121 %>% filter(EFFDUR > 30)
   if(nrow(large_effdur) > 0){
-    usethis::ui_oops(paste0(nrow(large_effdur), " have EFFDUR > 30 hours"))
+    usethis::ui_oops(paste0(nrow(large_effdur), " records have EFFDUR > 30 hours"))
   } else {usethis::ui_done("No EFFDUR values are not excessibly large.")}
 
   ## Check EFFDUR vs Calculated
@@ -82,9 +82,9 @@ fn121_error_queries <- function(FN121, FN123){
 
   # Check for invalid codes in fields ------
   ## EFFST ---------
-  effst_error <- FN121 %>% filter(!(EFFST %in% 1:9))
+  effst_error <- FN121 %>% filter(EFFST != 1)
   if(nrow(effst_error) > 0){
-    usethis::ui_oops(paste0(nrow(effst_error), " records have invalid values for EFFST"))
+    usethis::ui_oops(paste0(nrow(effst_error), " records have values for EFFST that require review"))
   } else {usethis::ui_done("EFFST codes all valid.")}
 
   ## SITEM ----------
