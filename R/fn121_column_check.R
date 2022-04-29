@@ -21,7 +21,8 @@ fn121_column_check <- function(FN121) {
       "EFFTM1",
       "SIDEP",
       "SITEM",
-      "EFFDUR")
+      "EFFDUR",
+      "EFFST")
   if (all(req_names %in% names(FN121))) {
     usethis::ui_done("FN121 has required fields")
   }
