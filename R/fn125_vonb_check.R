@@ -31,6 +31,11 @@ fn125_vonb_check <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
   # if(!(fishlength %in% names(FN125))) {
   #   usethis::ui_stop(paste(fishlength, " is not a valid field."))
   #   }
+  if (nrow(FN125) < 1) {
+    # usethis::ui_oops("No data for this species.")
+    return(FN125)
+  }
+
   FN125$qid5_error <- NA
   FN125$PRED_TLEN <-  NA
   FN125$LogRatioAge <- NA
