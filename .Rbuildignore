@@ -1,0 +1,10 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^README\.Rmd$
+
+R/package_build_files.R
+
+^data-raw$
+^doc$
+^Meta$
