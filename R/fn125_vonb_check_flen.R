@@ -21,8 +21,10 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
   }
 
   FN125$qid5_error <- NA
-  FN125$PRED_FLEN <-  NA
+  FN125$PRED_FLENAGE <-  NA
+  FN125$PRED_FLENAGE <-  as.numeric(FN125$PRED_FLENAGE)
   FN125$LogRatioAge <- NA
+  FN125$LogRatioAge <- as.numeric(FN125$LogRatioAge)
 
   if(length(unique(FN125$PRJ_CD)) > 1){usethis::ui_warn("Multiple projects included.")}
   if(length(unique(FN125$SPC)) > 1){
@@ -59,8 +61,8 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
     m <- coef(von.bert)[2]
     n <- coef(von.bert)[3]
 
-    FN125$PRED_FLEN <-  predict(von.bert)
-    FN125$LogRatioAge <- abs((log10(FN125$FLEN))-(log10(FN125$PRED_FLEN)))
+    FN125$PRED_FLENAGE <-  predict(von.bert)
+    FN125$LogRatioAge <- abs((log10(FN125$FLEN))-(log10(FN125$PRED_FLENAGE)))
     FN125$qid5_error <- ifelse(FN125$LogRatioAge > fail_criteria, T, F)
 
     if(makeplot) {
