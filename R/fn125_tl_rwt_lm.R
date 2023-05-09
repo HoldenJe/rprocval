@@ -83,7 +83,7 @@ fn125_tl_rwt_lm <-
             n_flags,
             " instances of irregular TLEN~RWT values found for SPC == ",
             unique(FN125$SPC),
-            "[`FN125 %>% filter(qid3_error)`]"
+            "[`FN125 %>% filter(qid4_error)`]"
           )
           usethis::ui_oops(done_message)
         }
