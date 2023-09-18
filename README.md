@@ -89,3 +89,12 @@ values set for each specific test. If records that are suspected errors
 are not being flagged it is possible to provide a more restrictive
 (smaller value) criteria through the use of this argument. Details of
 the `fail_criteria` can be found on the help pages for each function.
+
+## FN125 Error Checking Cheatsheet
+
+qid1_error = FLEN \> TLEN  
+qid2_error = TLEN and FLEN don’t fit regression model  
+qid3_error = FLEN and RWT don’t fit regression model  
+qid4_error = TLEN and RWT don’t fit regression model  
+qid5_error = TLEN and AGE don’t fit VonB model  
+qid6_error = FLEN and AGE don’t fit VonB model

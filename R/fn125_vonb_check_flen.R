@@ -63,7 +63,7 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
 
     FN125$PRED_FLENAGE <-  predict(von.bert)
     FN125$LogRatioAge <- abs((log10(FN125$FLEN))-(log10(FN125$PRED_FLENAGE)))
-    FN125$qid5_error <- ifelse(FN125$LogRatioAge > fail_criteria, T, F)
+    FN125$qid6_error <- ifelse(FN125$LogRatioAge > fail_criteria, T, F)
 
     if(makeplot) {
       require(ggplot2)
@@ -76,15 +76,15 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
       print(vbplot)
     }
 
-    if(sum(FN125$qid5_error, na.rm = T) == 0){
+    if(sum(FN125$qid6_error, na.rm = T) == 0){
       done_message <- paste0("No instances of irregular FLEN~AGE values found for SPC == ", unique(FN125$SPC))
       usethis::ui_done(done_message)
     }
     if(sum(FN125$qid5_error, na.rm = T) > 0){
-      n_flags <- sum(FN125$qid5_error, na.rm = T)
+      n_flags <- sum(FN125$qid6_error, na.rm = T)
       done_message <- paste0(n_flags, " instances of irregular FLEN~AGE values found for SPC == ", unique(FN125$SPC))
       usethis::ui_oops(done_message)
-      usethis::ui_info("Use `FN125 %>% filter(qid5_error)` to view flagged records")
+      usethis::ui_info("Use `FN125 %>% filter(qid6_error)` to view flagged records")
     }
 
     FN125 <- dplyr::rows_update(datain, FN125, by="UID")

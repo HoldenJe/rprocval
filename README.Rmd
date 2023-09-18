@@ -56,3 +56,11 @@ myoutput <- FN125 %>%
 This interactive approach allows users to correct errors in the data and then easily re-run the functions. For instance, an outlier may prevent one of the `nls` models from converging and thus identifying any outliers. Such outliers should be immediately apparent when the associated plot is viewed. This error should be corrected or removed and then it is likely that successive tests will provide meaningful results. Similarly, this approach allows users to interactively test methods of correcting the data by applying the correction within the R environment prior to making a change to the data record and then testing whether the applied changes result in records passing the necessary checks. This approach works well for errors in units (e.g. g vs kg as an expected unit) or a transcription error that resulted in FLEN values in the TLEN column (and thus FLEN > TLEN). 
 
 Most of the `fn125_*` functions have 2 optional arguments: `makeplot` and `fail_criteria`. The `makeplot` argument determines whether plots should be made as an output of the running the function. It is useful to view these plots but is not always necessary and can often slow the processing time down considerably. The `fail_criteria` has default values set for each specific test. If records that are suspected errors are not being flagged it is possible to provide a more restrictive (smaller value) criteria through the use of this argument. Details of the `fail_criteria` can be found on the help pages for each function.
+
+## FN125 Error Checking Cheatsheet
+qid1_error = FLEN > TLEN  
+qid2_error = TLEN and FLEN don't fit regression model  
+qid3_error = FLEN and RWT don't fit regression model  
+qid4_error = TLEN and RWT don't fit regression model  
+qid5_error = TLEN and AGE don't fit VonB model  
+qid6_error = FLEN and AGE don't fit VonB model  
