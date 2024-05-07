@@ -118,13 +118,10 @@ fn123_error_queries <- function(FN123, FN125){
     filter(mn_wt_logratio > 0.2)
   n_log_ratio_wt <- nrow(avg_fn123_wt_diff_fn125)
   if(n_log_ratio_wt >=1) {
-    usethis::ui_oops(paste0("FN123 has ", n_log_ratio_wt,
-                            " records where the mean weight of fish differs from FN125 weights."))
+    usethis::ui_info(paste0("FN123 has ", n_log_ratio_wt,
+                            " records where the mean weight of fish differs from FN125 weights. This could be considered an error if the FN125 has random sampling."))
   } else {usethis::ui_done("No FN123 records where average fish weight differs from FN125.")}
 
-  # this is BIG number of errors... but..
-  # this is currently returning errors that are mostly likely CATCNT, BIOCNT errors
-  # will be more informative when earlier errors are cleaned
 
   error_tables <- list(NA_CATCNT = has_na_catcnt,
                        NA_BIOCNT = has_na_biocnt,
