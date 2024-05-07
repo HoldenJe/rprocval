@@ -36,3 +36,42 @@ fn125_fulton <- function(FN125, FN012, makeplot = TRUE){
   if(makeplot) {print(p)}
   return(FN125)
 }
+
+
+
+#' Check FN125 data against FN012 min/max lengths
+#'
+#' @param FN125
+#' @param FN012
+#' @param makeplot
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' FN125 <- fn125_minmax_TLEN(FN125, FN012)
+#' FN125 <- fn125_minmax_TLEN(FN125, FN012, makeplot = F)
+#' }
+fn125_minmax_TLEN <- function(FN125, FN012, makeplot = TRUE){
+  FN125 <- left_join(FN125, FN012, by = c("PRJ_CD", "SPC", "GRP")) %>%
+    mutate(LengthCheck = case_when(
+      TLEN > TLEN_MAX ~"Exceeds_Max",
+      TLEN < TLEN_MIN ~"Below_Min",
+      .default = "Pass"
+    ))
+
+  if(makeplot) {
+    p <- ggplot(FN125, aes(TLEN, fill = LengthCheck)) +
+      geom_histogram(binwidth = 5) +
+      facet_wrap(~SPC, scales = "free_y") +
+      ggtitle(paste("TLEN ranges. SPC", unique(FN125$SPC), sep = ":"))
+
+    print(p)
+  }
+  return(FN125)
+}
+
+
+
+
