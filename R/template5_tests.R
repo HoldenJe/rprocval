@@ -1,15 +1,54 @@
 # template 5 functions
 
-template5_tests <- function(FN012 = FN012,
+#' Basic database structural tests
+#'
+#' @param FN012
+#' @param FN022
+#' @param FN026
+#' @param FN026_Subspace
+#' @param FN028
+#' @param FN121
+#' @param FN123
+#' @param FN124
+#' @param FN125
+#'
+#' @return
+#' @export
+#' @examples
+#' \dontrun{
+#' fn_template5_basic_checks(FN012, FN022, FN026_Subspace, FN028, FN121, FN123, FN124, FN125)
+#' }
+#'
+fn_template5_basic_checks <- function(
+                            FN012 = FN012,
                             FN022 = FN022,
-                            FN026 = FN026,
                             FN026_Subspace = FN026_Subspace,
                             FN028 = FN028,
                             FN121 = FN121,
                             FN123 = FN123,
                             FN124 = FN124,
                             FN125 = FN125) {
+  if(all(FN121$SSN %in% FN022$SSN)){
+    usethis::ui_done("All FN121 SSN values exist in FN022")
+  } else {usethis::ui_oops("FN121 has SSN values that do not exist in FN022")}
 
+  if(all(FN121$SUBSPACE %in% FN026_Subspace$SUBSPACE)){
+    usethis::ui_done("All FN121 SUBSPACE values exist in FN026_Subspace")
+  } else {usethis::ui_oops("FN121 has SUBSPACE values that do not exist in FN026_Subspace")}
+
+  if(all(FN123$SPC %in% FN012$SPC)){
+    usethis::ui_done("All FN123 SPC values exist in FN022")
+  } else {usethis::ui_oops("FN123 has SPC values that do not exist in FN022")}
+
+  if(all(FN124$SPC %in% FN012$SPC)){
+    usethis::ui_done("All FN124 SPC values exist in FN022")
+  } else {usethis::ui_oops("FN124 has SPC values that do not exist in FN022")}
+
+  if(all(FN125$SPC %in% FN012$SPC)){
+    usethis::ui_done("All FN125 SPC values exist in FN022")
+  } else {usethis::ui_oops("FN125 has SPC values that do not exist in FN022")}
+
+  # add more tests
 }
 
 
