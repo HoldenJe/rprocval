@@ -17,7 +17,7 @@ template5_tests <- function(FN012 = FN012,
 #' Check FN125 data against FN012 table
 #'
 #' @param FN125 FN125 table from Template 5
-#' @param FN012 FN012 table from Temaplate 5
+#' @param FN012 FN012 table from Template 5
 #' @param makeplot option to produce plot. Default = TRUE
 #'
 #' @return FN125 table with Fulton K, ranges from FN012 and categorization
@@ -53,9 +53,9 @@ fn125_fulton <- function(FN125, FN012, makeplot = TRUE){
 
 #' Check FN125 data against FN012 min/max lengths
 #'
-#' @param FN125
-#' @param FN012
-#' @param makeplot
+#' @param FN125 FN125 table from Template 5
+#' @param FN012 FN012 table from Template 5
+#' @param makeplot option to produce plot. Default = TRUE
 #'
 #' @return
 #' @export
@@ -85,5 +85,37 @@ fn125_minmax_TLEN <- function(FN125, FN012, makeplot = TRUE){
 }
 
 
+
+#' Checks FN124 data against FN012 min/max lengths
+#'
+#' @param FN124 FN124 table from Template 5
+#' @param FN012 FN012 table from Template 5
+#' @param makeplot option to produce plot. Default = TRUE
+#'
+#' @return
+#' @export
+#'
+#' @examples
+fn124_minmax_TLEN <- function(FN124, FN012, makeplot = TRUE){
+
+  FN124 <- left_join(FN124, FN012, by = c("PRJ_CD", "SPC", "GRP")) %>%
+    mutate(LengthCheck = case_when(
+      SIZ > TLEN_MAX ~"Exceeds_Max",
+      SIZ < TLEN_MIN ~"Below_Min",
+      .default = "Pass"
+    ))
+
+  if(makeplot) {
+    FN124 <- FN124 %>% group_by(PRJ_CD, SPC, SIZ, LengthCheck) %>%
+      summarize(SIZCNT = sum(SIZCNT))
+    p <- ggplot(FN124, aes(SIZ, SIZCNT, fill = LengthCheck)) +
+      geom_bar(stat = "identity") +
+      facet_wrap(~SPC, scales = "free_y") +
+      ggtitle("FN124 check")
+
+    print(p)
+  }
+  return(FN124)
+}
 
 
