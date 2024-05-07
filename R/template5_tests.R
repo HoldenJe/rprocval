@@ -1,6 +1,16 @@
 # template 5 functions
 
-template5_tests <- function(FN012, FN022, FN026, FN026_Subspace, FN028, FN121, FN123, FN125) {}
+template5_tests <- function(FN012 = FN012,
+                            FN022 = FN022,
+                            FN026 = FN026,
+                            FN026_Subspace = FN026_Subspace,
+                            FN028 = FN028,
+                            FN121 = FN121,
+                            FN123 = FN123,
+                            FN124 = FN124,
+                            FN125 = FN125) {
+
+}
 
 
 
@@ -28,12 +38,14 @@ fn125_fulton <- function(FN125, FN012, makeplot = TRUE){
       .default = "Pass"
     ))
 
-  p <- ggplot(FN125, aes(TLEN, RWT, color = FultonCheck)) +
+  if(makeplot) {
+    p <- ggplot(FN125, aes(TLEN, RWT, color = FultonCheck)) +
     geom_point() +
     facet_wrap(~SPC, scales = "free") +
-    ggtitle(paste("Fulton's K. SPC", unique(FN125$SPC), sep = ":"))
+    ggtitle("Fulton's K")
 
-  if(makeplot) {print(p)}
+    print(p)
+    }
   return(FN125)
 }
 
@@ -65,7 +77,7 @@ fn125_minmax_TLEN <- function(FN125, FN012, makeplot = TRUE){
     p <- ggplot(FN125, aes(TLEN, fill = LengthCheck)) +
       geom_histogram(binwidth = 5) +
       facet_wrap(~SPC, scales = "free_y") +
-      ggtitle(paste("TLEN ranges. SPC", unique(FN125$SPC), sep = ":"))
+      ggtitle("FN125 Checks")
 
     print(p)
   }
