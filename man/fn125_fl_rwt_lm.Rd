@@ -9,9 +9,6 @@ fn125_fl_rwt_lm(FN125, makeplot = F, fail_criteria = 0.3)
 \arguments{
 \item{fail_criteria}{}
 }
-\value{
-
-}
 \description{
 fl_rwt_lm - Compares FL:RWT using nlm relationship
 }

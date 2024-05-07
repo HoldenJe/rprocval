@@ -9,9 +9,6 @@ fn125_vonb_check_flen(FN125, makeplot = FALSE, fail_criteria = 0.2)
 \arguments{
 \item{fail_criteria}{}
 }
-\value{
-
-}
 \description{
 vonb_check_flen - Fits VBL growth function to FLEN and AGE
 }

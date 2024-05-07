@@ -9,9 +9,6 @@ fn123_column_check(FN123)
 \arguments{
 \item{FN123}{FN123 table that adheres to the FN2 data model}
 }
-\value{
-
-}
 \description{
 Check FN123 Columns
 }

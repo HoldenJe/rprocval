@@ -9,9 +9,6 @@ fn125_fl_tl_lm(FN125, makeplot = F, fail_criteria = 0.1)
 \arguments{
 \item{fail_criteria}{}
 }
-\value{
-
-}
 \description{
 fl_tl_lm - Compares FL:TL using lm relationship
 }

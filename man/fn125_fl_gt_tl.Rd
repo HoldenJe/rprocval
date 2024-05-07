@@ -9,9 +9,6 @@ fn125_fl_gt_tl(FN125, makeplot = F)
 \arguments{
 \item{makeplot}{}
 }
-\value{
-
-}
 \description{
 fl_gt_tl - Identify where FL > TL
 }

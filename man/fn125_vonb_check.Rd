@@ -14,9 +14,6 @@ also plotted as a line.}
 \item{fail_criteria}{Default value = 0.2 The threshold level that if exceeded in
 the log ratio of TLEN vs PRED_TLEN will flag the record as a potential error}
 }
-\value{
-
-}
 \description{
 vonb_check - Fits VBL growth function to TLEN and AGE
 }

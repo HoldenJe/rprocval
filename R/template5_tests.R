@@ -12,7 +12,7 @@
 #' @param FN124
 #' @param FN125
 #'
-#' @return
+#' @return returns usethis messages
 #' @export
 #' @examples
 #' \dontrun{
@@ -96,7 +96,7 @@ fn125_fulton <- function(FN125, FN012, makeplot = TRUE){
 #' @param FN012 FN012 table from Template 5
 #' @param makeplot option to produce plot. Default = TRUE
 #'
-#' @return
+#' @return FN125 table with length checks from FN012
 #' @export
 #'
 #' @examples
@@ -131,7 +131,7 @@ fn125_minmax_TLEN <- function(FN125, FN012, makeplot = TRUE){
 #' @param FN012 FN012 table from Template 5
 #' @param makeplot option to produce plot. Default = TRUE
 #'
-#' @return
+#' @return FN124 table with length checks from FN012
 #' @export
 #'
 #' @examples
