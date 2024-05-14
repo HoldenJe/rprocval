@@ -84,7 +84,11 @@ fn125_fulton <- function(FN125, FN012, makeplot = TRUE){
     ggtitle("Fulton's K")
 
     print(p)
-    }
+  }
+
+  has_error <-nrow(filter(FN125, FultonCheck != "Pass"))
+  usethis::ui_info(paste0("There were ", has_error, " records that did not pass test."))
+  if(has_error >0) {print(table(FN125$FultonCheck))}
   return(FN125)
 }
 
@@ -120,6 +124,9 @@ fn125_minmax_TLEN <- function(FN125, FN012, makeplot = TRUE){
 
     print(p)
   }
+  has_error <-nrow(filter(FN125, LengthCheck != "Pass"))
+  usethis::ui_info(paste0("There were ", has_error, " records that did not pass test."))
+  if(has_error >0) {print(table(FN125$LengthCheck))}
   return(FN125)
 }
 
@@ -154,6 +161,10 @@ fn124_minmax_TLEN <- function(FN124, FN012, makeplot = TRUE){
 
     print(p)
   }
+
+  has_error <-nrow(filter(FN124, LengthCheck != "Pass"))
+  usethis::ui_info(paste0("There were ", has_error, " records that did not pass test."))
+  if(has_error >0) {print(table(FN125$LengthCheck))}
   return(FN124)
 }
 
