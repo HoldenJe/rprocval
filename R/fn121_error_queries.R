@@ -217,4 +217,5 @@ fn121_error_queries_t5 <- function(FN121, FN123){
     effst_error = effst_error,
     sitem = sitem
   )
+  return(error_tables)
 }

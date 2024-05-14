@@ -133,4 +133,5 @@ fn123_error_queries <- function(FN123, FN125){
                        FN125_gt_CATCNT = biocnt125_gt_catcnt,
                        Very_Large_Avg_RWT = large_weight,
                        Avg_RWT_differs_in_FN123 = avg_fn123_wt_diff_fn125)
+  error_tables
 }
