@@ -17,11 +17,11 @@
 fn123_error_queries <- function(FN123, FN125){
   require(dplyr)
   FN125_summary <- FN125 %>%
-    group_by(PRJ_CD, SAM, EFF, SPC) %>%
+    group_by(PRJ_CD, SAM, EFF, SPC, GRP) %>%
     summarize(BIOCNT125 = n(), CATWT125 = sum(RWT)/1000)
 
   # Merge columns with FN123
-  FN123 <- left_join(FN123, FN125_summary, by =c('PRJ_CD', 'SAM', 'EFF', 'SPC'))
+  FN123 <- left_join(FN123, FN125_summary, by =c('PRJ_CD', 'SAM', 'EFF', 'SPC', 'GRP'))
 
   # Do error Checks
   ## CATCNT not null/na
