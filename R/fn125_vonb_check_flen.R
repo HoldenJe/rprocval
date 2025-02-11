@@ -20,7 +20,7 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
     return(FN125)
   }
 
-  FN125$qid5_error <- NA
+  FN125$qid6_error <- NA
   FN125$PRED_FLENAGE <-  NA
   FN125$PRED_FLENAGE <-  as.numeric(FN125$PRED_FLENAGE)
   FN125$LogRatioAge <- NA
@@ -70,7 +70,7 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
       age_fit <- data.frame(AGE = 0:max(FN125$AGE))
       age_fit$FLEN <- predict(von.bert, age_fit)
       vbplot <- ggplot() +
-        geom_point(data = FN125, aes(AGE, FLEN, color = qid5_error)) +
+        geom_point(data = FN125, aes(AGE, FLEN, color = qid6_error)) +
         geom_line(data = age_fit, aes(AGE, FLEN), lty = 2) +
         ggtitle(paste(unique(FN125$PRJ_CD), unique(FN125$SPC), sep = ": "))
       print(vbplot)
@@ -80,7 +80,7 @@ fn125_vonb_check_flen <- function(FN125, makeplot = FALSE, fail_criteria = 0.2){
       done_message <- paste0("No instances of irregular FLEN~AGE values found for SPC == ", unique(FN125$SPC))
       usethis::ui_done(done_message)
     }
-    if(sum(FN125$qid5_error, na.rm = T) > 0){
+    if(sum(FN125$qid6_error, na.rm = T) > 0){
       n_flags <- sum(FN125$qid6_error, na.rm = T)
       done_message <- paste0(n_flags, " instances of irregular FLEN~AGE values found for SPC == ", unique(FN125$SPC))
       usethis::ui_oops(done_message)
