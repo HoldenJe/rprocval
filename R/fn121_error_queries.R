@@ -106,6 +106,8 @@ fn121_error_queries <- function(FN121, FN123){
     effst_error = effst_error,
     sitem = sitem
   )
+
+  return(error_tables)
 }
 
 
